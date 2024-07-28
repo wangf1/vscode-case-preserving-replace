@@ -11,16 +11,16 @@ When search term is "begin", replace term is "end":
 - Begin -> End,
 - BEGIN -> END
 
-When search term is "fourfivesix", replace term is "fourFiveSix":
+When search term is "onetwothree", replace term is "fourFiveSix":
 
-- fourfivesix -> fourfivesix,
-- fourFiveSix -> fourFiveSix,
-- FourFiveSix -> FourFiveSix,
-- fourFiveSIX -> fourFiveSIX
+- onetwothree -> fourfivesix,
+- oneTwoThree -> fourFiveSix,
+- OneTwoThree -> FourFiveSix,
+- oneTwoTHREE -> fourFiveSIX
 
 - Not support case:
-  - FourFiveSix -> FOURFiveSix (Actual: -> FourFiveSix)
-  - FourFIVESIX -> FOURFiveSIX (Actual: -> FourFIVESIX)
+  - ONETwoThree -> FOURFiveSix (Actual: -> FourFiveSix)
+  - ONETwoTHREE -> FOURFiveSIX (Actual: -> FourFIVESIX)
 
 ## Release Notes
 
