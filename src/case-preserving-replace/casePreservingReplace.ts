@@ -174,14 +174,9 @@ function makeLongerTokensSameLength(
   return result;
 }
 
-// Thanks to the idea from
-//  https://medium.com/@julienetienne/es-modules-testing-private-functions-2c86eb6c1e58
-export const __internal =
-  process.env.NODE_ENV === "test"
-    ? {
-        makeLongerTokensSameLength,
-        makeSourceAndTargetTokenCountMatch,
-        splitByCaseFromLowerBecomeUpper: splitByCaseFromLowerToUpper,
-        getReplacement,
-      }
-    : undefined;
+export const __internal = {
+  makeLongerTokensSameLength,
+  makeSourceAndTargetTokenCountMatch,
+  splitByCaseFromLowerBecomeUpper: splitByCaseFromLowerToUpper,
+  getReplacement,
+};

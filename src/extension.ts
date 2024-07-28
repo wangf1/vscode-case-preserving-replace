@@ -1,5 +1,5 @@
-import { casePreservingReplace } from "@/case-preserving-replace/casePreservingReplace";
 import * as vscode from "vscode";
+import { casePreservingReplace } from "./case-preserving-replace/casePreservingReplace";
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed

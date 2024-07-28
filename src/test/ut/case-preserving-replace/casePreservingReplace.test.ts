@@ -1,4 +1,5 @@
-import { __internal } from "@/case-preserving-replace/casePreservingReplace";
+import { deepEqual } from "assert";
+import { __internal } from "../../../case-preserving-replace/casePreservingReplace";
 
 test("makeLongerTokensSameLength", () => {
   if (!__internal) {
@@ -8,7 +9,7 @@ test("makeLongerTokensSameLength", () => {
   const shorter = ["one", "Two", "THREE"];
   const longer = ["four", "Five", "SIX", "Seven", "Eight", "Nine", "Ten"];
   const result = __internal.makeLongerTokensSameLength(shorter, longer);
-  expect(result).toEqual(["four", "Five", "SIXSevenEightNineTen"]);
+  deepEqual(result, ["four", "Five", "SIXSevenEightNineTen"]);
 });
 
 test("makeSourceAndTargetTokenCountMatch", () => {
@@ -19,10 +20,9 @@ test("makeSourceAndTargetTokenCountMatch", () => {
   const source = ["one", "Two", "THREE"];
   const target = ["four", "Five", "SIX", "Seven", "Eight", "Nine", "Ten"];
   const result = __internal.makeSourceAndTargetTokenCountMatch(source, target);
-  expect(result).toBeDefined();
   const [countMatchedSource, countMatchedTarget] = result;
-  expect(countMatchedSource).toEqual(source);
-  expect(countMatchedTarget).toEqual(["four", "Five", "SIXSevenEightNineTen"]);
+  deepEqual(countMatchedSource, source);
+  deepEqual(countMatchedTarget, ["four", "Five", "SIXSevenEightNineTen"]);
 
   const source2 = ["four", "Five", "SIX", "Seven", "Eight", "Nine", "Ten"];
   const target2 = ["one", "Two", "THREE"];
@@ -30,10 +30,9 @@ test("makeSourceAndTargetTokenCountMatch", () => {
     source2,
     target2
   );
-  expect(result2).toBeDefined();
   const [countMatchedSource2, countMatchedTarget2] = result2;
-  expect(countMatchedSource2).toEqual(["four", "Five", "SIXSevenEightNineTen"]);
-  expect(countMatchedTarget2).toEqual(target2);
+  deepEqual(countMatchedSource2, ["four", "Five", "SIXSevenEightNineTen"]);
+  deepEqual(countMatchedTarget2, target2);
 });
 
 test("splitByCaseFromLowerBecomeUpper - standard case switch", () => {
@@ -43,7 +42,7 @@ test("splitByCaseFromLowerBecomeUpper - standard case switch", () => {
   }
   const str = "oneTwoThree";
   const result = __internal.splitByCaseFromLowerBecomeUpper(str);
-  expect(result).toEqual(["one", "Two", "Three"]);
+  deepEqual(result, ["one", "Two", "Three"]);
 });
 
 test("splitByCaseFromLowerBecomeUpper - all lowercase", () => {
@@ -53,7 +52,7 @@ test("splitByCaseFromLowerBecomeUpper - all lowercase", () => {
   }
   const str = "onetwothree";
   const result = __internal.splitByCaseFromLowerBecomeUpper(str);
-  expect(result).toEqual(["onetwothree"]);
+  deepEqual(result, ["onetwothree"]);
 });
 
 test("splitByCaseFromLowerBecomeUpper - all uppercase", () => {
@@ -63,7 +62,7 @@ test("splitByCaseFromLowerBecomeUpper - all uppercase", () => {
   }
   const str = "ONETWOTHREE";
   const result = __internal.splitByCaseFromLowerBecomeUpper(str);
-  expect(result).toEqual(["ONETWOTHREE"]);
+  deepEqual(result, ["ONETWOTHREE"]);
 });
 
 test("splitByCaseFromLowerBecomeUpper - mixed case with no switch", () => {
@@ -73,7 +72,7 @@ test("splitByCaseFromLowerBecomeUpper - mixed case with no switch", () => {
   }
   const str = "one2three";
   const result = __internal.splitByCaseFromLowerBecomeUpper(str);
-  expect(result).toEqual(["one2three"]);
+  deepEqual(result, ["one2three"]);
 });
 
 test("splitByCaseFromLowerBecomeUpper - single character", () => {
@@ -83,7 +82,7 @@ test("splitByCaseFromLowerBecomeUpper - single character", () => {
   }
   const str = "o";
   const result = __internal.splitByCaseFromLowerBecomeUpper(str);
-  expect(result).toEqual(["o"]);
+  deepEqual(result, ["o"]);
 });
 
 test("splitByCaseFromLowerBecomeUpper - empty string", () => {
@@ -93,7 +92,7 @@ test("splitByCaseFromLowerBecomeUpper - empty string", () => {
   }
   const str = "";
   const result = __internal.splitByCaseFromLowerBecomeUpper(str);
-  expect(result).toEqual([""]);
+  deepEqual(result, [""]);
 });
 
 test("splitByCaseFromLowerBecomeUpper - case switch at beginning", () => {
@@ -103,7 +102,7 @@ test("splitByCaseFromLowerBecomeUpper - case switch at beginning", () => {
   }
   const str = "OneTwoThree";
   const result = __internal.splitByCaseFromLowerBecomeUpper(str);
-  expect(result).toEqual(["One", "Two", "Three"]);
+  deepEqual(result, ["One", "Two", "Three"]);
 });
 
 test("splitByCaseFromLowerBecomeUpper - multiple upper case at beginning", () => {
@@ -113,7 +112,7 @@ test("splitByCaseFromLowerBecomeUpper - multiple upper case at beginning", () =>
   }
   const str = "ONETwoThree";
   const result = __internal.splitByCaseFromLowerBecomeUpper(str);
-  expect(result).toEqual(["ONETwo", "Three"]);
+  deepEqual(result, ["ONETwo", "Three"]);
 });
 
 test("splitByCaseFromLowerBecomeUpper - case switch at end", () => {
@@ -123,7 +122,7 @@ test("splitByCaseFromLowerBecomeUpper - case switch at end", () => {
   }
   const str = "oneTwoThreeEnd";
   const result = __internal.splitByCaseFromLowerBecomeUpper(str);
-  expect(result).toEqual(["one", "Two", "Three", "End"]);
+  deepEqual(result, ["one", "Two", "Three", "End"]);
 });
 
 test("splitByCaseFromLowerBecomeUpper - multiple consecutive switches", () => {
@@ -133,7 +132,7 @@ test("splitByCaseFromLowerBecomeUpper - multiple consecutive switches", () => {
   }
   const str = "oneTWoTHREE";
   const result = __internal.splitByCaseFromLowerBecomeUpper(str);
-  expect(result).toEqual(["one", "TWo", "THREE"]);
+  deepEqual(result, ["one", "TWo", "THREE"]);
 });
 
 test("splitByCaseFromLowerBecomeUpper - special characters and numbers", () => {
@@ -143,7 +142,7 @@ test("splitByCaseFromLowerBecomeUpper - special characters and numbers", () => {
   }
   const str = "one2Three$Four";
   const result = __internal.splitByCaseFromLowerBecomeUpper(str);
-  expect(result).toEqual(["one2", "Three$", "Four"]);
+  deepEqual(result, ["one2", "Three$", "Four"]);
 });
 
 test("getReplacement - all lowercase to all lowercase", () => {
@@ -154,7 +153,7 @@ test("getReplacement - all lowercase to all lowercase", () => {
   const targetTokens =
     __internal.splitByCaseFromLowerBecomeUpper("fourFiveSix");
   const result = __internal.getReplacement(match, targetTokens);
-  expect(result).toEqual("fourfivesix");
+  deepEqual(result, "fourfivesix");
 });
 
 test("getReplacement - camelCase to camelCase", () => {
@@ -165,7 +164,7 @@ test("getReplacement - camelCase to camelCase", () => {
   const targetTokens =
     __internal.splitByCaseFromLowerBecomeUpper("fourFiveSix");
   const result = __internal.getReplacement(match, targetTokens);
-  expect(result).toEqual("fourFiveSix");
+  deepEqual(result, "fourFiveSix");
 });
 
 test("getReplacement - camelCase to PascalCase (keep camelCase)", () => {
@@ -176,7 +175,7 @@ test("getReplacement - camelCase to PascalCase (keep camelCase)", () => {
   const targetTokens =
     __internal.splitByCaseFromLowerBecomeUpper("FourFiveSix");
   const result = __internal.getReplacement(match, targetTokens);
-  expect(result).toEqual("fourFiveSix");
+  deepEqual(result, "fourFiveSix");
 });
 
 test("getReplacement - PascalCase to PascalCase", () => {
@@ -187,7 +186,7 @@ test("getReplacement - PascalCase to PascalCase", () => {
   const targetTokens =
     __internal.splitByCaseFromLowerBecomeUpper("fourFiveSix");
   const result = __internal.getReplacement(match, targetTokens);
-  expect(result).toEqual("FourFiveSix");
+  deepEqual(result, "FourFiveSix");
 });
 
 test("getReplacement - UPPERcase to UPPERcase with mixed case", () => {
@@ -198,7 +197,7 @@ test("getReplacement - UPPERcase to UPPERcase with mixed case", () => {
   const targetTokens =
     __internal.splitByCaseFromLowerBecomeUpper("FourFiveSix");
   const result = __internal.getReplacement(match, targetTokens);
-  expect(result).toEqual("FourFiveSix");
+  deepEqual(result, "FourFiveSix");
 });
 
 test("getReplacement - UPPERcase CamelCase to mixed", () => {
@@ -209,7 +208,7 @@ test("getReplacement - UPPERcase CamelCase to mixed", () => {
   const targetTokens =
     __internal.splitByCaseFromLowerBecomeUpper("FourFiveSix");
   const result = __internal.getReplacement(match, targetTokens);
-  expect(result).toEqual("FourFIVESIX");
+  deepEqual(result, "FourFIVESIX");
 });
 test("getReplacement - UPPERcase CamelCase to mixed", () => {
   if (!__internal) {
@@ -219,7 +218,7 @@ test("getReplacement - UPPERcase CamelCase to mixed", () => {
   const targetTokens =
     __internal.splitByCaseFromLowerBecomeUpper("FourFiveSix");
   const result = __internal.getReplacement(match, targetTokens);
-  expect(result).toEqual("fourFiveSIX");
+  deepEqual(result, "fourFiveSIX");
 });
 
 test("getReplacement - basic case matching", () => {
@@ -230,7 +229,7 @@ test("getReplacement - basic case matching", () => {
   }
   const targetTokens = __internal.splitByCaseFromLowerBecomeUpper("unoDosTres");
   const result = __internal.getReplacement(match, targetTokens);
-  expect(result).toEqual("unoDosTres");
+  deepEqual(result, "unoDosTres");
 });
 
 test("getReplacement - all lowercase", () => {
@@ -241,7 +240,7 @@ test("getReplacement - all lowercase", () => {
   }
   const targetTokens = __internal.splitByCaseFromLowerBecomeUpper("unoDosTres");
   const result = __internal.getReplacement(match, targetTokens);
-  expect(result).toEqual("unodostres");
+  deepEqual(result, "unodostres");
 });
 
 test("getReplacement - all uppercase", () => {
@@ -253,7 +252,7 @@ test("getReplacement - all uppercase", () => {
 
   const targetTokens = __internal.splitByCaseFromLowerBecomeUpper("unoDosTres");
   const result = __internal.getReplacement(match, targetTokens);
-  expect(result).toEqual("UNODOSTRES");
+  deepEqual(result, "UNODOSTRES");
 });
 
 test("getReplacement - mixed case", () => {
@@ -265,7 +264,7 @@ test("getReplacement - mixed case", () => {
 
   const targetTokens = __internal.splitByCaseFromLowerBecomeUpper("unoDosTres");
   const result = __internal.getReplacement(match, targetTokens);
-  expect(result).toEqual("UnoDosTRES");
+  deepEqual(result, "UnoDosTRES");
 });
 
 test("getReplacement - empty match string", () => {
@@ -276,7 +275,7 @@ test("getReplacement - empty match string", () => {
   const match = "";
   const targetTokens = __internal.splitByCaseFromLowerBecomeUpper("");
   const result = __internal.getReplacement(match, targetTokens);
-  expect(result).toEqual("");
+  deepEqual(result, "");
 });
 
 test("getReplacement - mismatch in token lengths: target is shorter", () => {
@@ -288,7 +287,7 @@ test("getReplacement - mismatch in token lengths: target is shorter", () => {
   const targetTokens = __internal.splitByCaseFromLowerBecomeUpper("unoDos");
   const result = __internal.getReplacement(match, targetTokens);
   // Assuming the function can handle mismatched lengths gracefully
-  expect(result).toEqual("unoDos");
+  deepEqual(result, "unoDos");
 });
 
 test("getReplacement - mismatch in token lengths: source is shorter", () => {
@@ -301,7 +300,7 @@ test("getReplacement - mismatch in token lengths: source is shorter", () => {
     __internal.splitByCaseFromLowerBecomeUpper("unoDosTresCuatro");
   const result = __internal.getReplacement(match, targetTokens);
   // Assuming the function can handle mismatched lengths gracefully
-  expect(result).toEqual("unoDosTresCuatro");
+  deepEqual(result, "unoDosTresCuatro");
 });
 
 test("getReplacement - numbers and special characters", () => {
@@ -312,5 +311,5 @@ test("getReplacement - numbers and special characters", () => {
   const match = "one2Three!";
   const targetTokens = __internal.splitByCaseFromLowerBecomeUpper("unoDosTres");
   const result = __internal.getReplacement(match, targetTokens);
-  expect(result).toEqual("unoDosTres");
+  deepEqual(result, "unoDosTres");
 });
