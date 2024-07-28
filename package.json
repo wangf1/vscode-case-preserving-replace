@@ -3,6 +3,7 @@
   "displayName": "Case-preserving Find and Replace",
   "description": "Case-preserving Find and Replace",
   "version": "0.0.1",
+  "license": "Apache-2.0",
   "engines": {
     "vscode": "^1.91.0"
   },

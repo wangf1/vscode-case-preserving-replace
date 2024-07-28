@@ -35,7 +35,7 @@ export const casePreservingReplace = async () => {
     return;
   }
 
-  const replaceTokens = replaceTerm.split(/(?=[A-Z])/);
+  const replaceTokens = splitByCaseFromLowerToUpper(replaceTerm);
 
   const document = editor.document;
   const text = document.getText();
@@ -43,7 +43,7 @@ export const casePreservingReplace = async () => {
     getReplacement(match, replaceTokens)
   );
 
-  editor.edit((editBuilder) => {
+  await editor.edit((editBuilder) => {
     const start = new vscode.Position(0, 0);
     const end = new vscode.Position(document.lineCount, 0);
     editBuilder.replace(new vscode.Range(start, end), newText);
@@ -59,14 +59,77 @@ export const casePreservingReplace = async () => {
     onetwothree -> fourfivesix, 
     oneTwoThree -> fourFiveSix, 
     OneTwoThree -> FourFiveSix
-    ONEtwothree -> FOURfivesix
  */
 function getReplacement(match: string, targetTokens: string[]) {
-  const sourceTokens = match.split(/(?=[A-Z])/);
-  const [sourceTokensMatched, targetTokensMatched] =
+  const sourceTokens = splitByCaseFromLowerToUpper(match);
+  const [sourceCountMatched, targetCountMatched] =
     makeSourceAndTargetTokenCountMatch(sourceTokens, targetTokens);
+  const res = [];
+  for (let i = 0; i < sourceCountMatched.length; i++) {
+    if (allLower(sourceCountMatched[i])) {
+      res.push(targetCountMatched[i].toLowerCase());
+    } else if (allUpper(sourceCountMatched[i])) {
+      res.push(targetCountMatched[i].toUpperCase());
+    } else if (firstUpper(sourceCountMatched[i])) {
+      res.push(
+        targetCountMatched[i].charAt(0).toUpperCase() +
+          targetCountMatched[i].slice(1)
+      );
+    } else {
+      res.push(targetCountMatched[i]);
+    }
+  }
+  return res.join("");
+}
 
-  return "";
+function allLower(match: string) {
+  return match === match.toLowerCase();
+}
+
+function allUpper(match: string) {
+  return match === match.toUpperCase();
+}
+
+function firstUpper(match: string) {
+  return match === match.charAt(0).toUpperCase() + match.slice(1);
+}
+
+enum Case {
+  UPPER = "UPPER",
+  lower = "lower",
+}
+
+function splitByCaseFromLowerToUpper(match: string): string[] {
+  const result = [];
+
+  const stack = [];
+
+  let preCase = Case.UPPER;
+
+  for (const element of match) {
+    const char = element;
+    const currCase = getCharCase(char);
+    if (currCase === Case.UPPER && preCase === Case.lower) {
+      result.push(stack.join(""));
+      stack.length = 0;
+      stack.push(char);
+    } else {
+      stack.push(char);
+    }
+    preCase = currCase;
+  }
+  result.push(stack.join(""));
+  return result;
+}
+
+function getCharCase(char: string): Case {
+  return isAlphabet(char) && char === char.toUpperCase()
+    ? Case.UPPER
+    : Case.lower;
+}
+
+function isAlphabet(char: string) {
+  return /^[a-zA-Z]$/.test(char);
 }
 
 function makeSourceAndTargetTokenCountMatch(
@@ -111,10 +174,14 @@ function makeLongerTokensSameLength(
   return result;
 }
 
+// Thanks to the idea from
+//  https://medium.com/@julienetienne/es-modules-testing-private-functions-2c86eb6c1e58
 export const __internal =
   process.env.NODE_ENV === "test"
     ? {
         makeLongerTokensSameLength,
         makeSourceAndTargetTokenCountMatch,
+        splitByCaseFromLowerBecomeUpper: splitByCaseFromLowerToUpper,
+        getReplacement,
       }
     : undefined;
