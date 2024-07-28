@@ -25,3 +25,7 @@ When search term is "onetwothree", replace term is "fourFiveSix":
 ## Release Notes
 
 ### 0.0.1
+
+Currently, there's no way to create a widget similar to the native
+find and replace widget, which limits its usability.
+Therefore, it will be used only for personal purposes.

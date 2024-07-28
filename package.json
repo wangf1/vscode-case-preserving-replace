@@ -15,8 +15,8 @@
   "contributes": {
     "commands": [
       {
-        "command": "case-preserving-find-and-replace.helloWorld",
-        "title": "Hello World"
+        "command": "case-preserving-find-and-replace.forCurrentFile",
+        "title": "Case-Preserving Find and Replace (Current File)"
       }
     ]
   },
